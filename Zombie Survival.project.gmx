@@ -10,6 +10,8 @@
       <sprite>sprites\spr_player1</sprite>
       <sprites name="Shoot Sprites">
         <sprite>sprites\spr_playerMachineShoot</sprite>
+        <sprite>sprites\spr_playerFlamethrowerShoot</sprite>
+        <sprite>sprites\spr_playerShotgunShoot</sprite>
         <sprite>sprites\spr_playerBow</sprite>
         <sprite>sprites\spr_playerPistolShoot</sprite>
         <sprite>sprites\spr_playerDynamite</sprite>
@@ -19,6 +21,8 @@
         <sprite>sprites\spr_playerRockReload</sprite>
         <sprite>sprites\spr_playerDynamiteReload</sprite>
         <sprite>sprites\spr_playerMachineReload</sprite>
+        <sprite>sprites\spr_playerFlamethrowerReload</sprite>
+        <sprite>sprites\spr_playerShotgunReload</sprite>
         <sprite>sprites\spr_playerBowReload</sprite>
         <sprite>sprites\spr_playerPistolReload</sprite>
       </sprites>
@@ -61,7 +65,11 @@
     <script>scripts\pistolPartInit.gml</script>
     <script>scripts\setFalse.gml</script>
     <script>scripts\firePartInit.gml</script>
+    <script>scripts\createArr.gml</script>
   </scripts>
+  <fonts name="fonts">
+    <font>fonts\f_round</font>
+  </fonts>
   <objects name="objects">
     <object>objects\obj_full</object>
     <object>objects\obj_player1</object>

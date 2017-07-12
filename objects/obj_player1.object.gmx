@@ -47,7 +47,7 @@ shotgun = false;
 laser = false;
 molotov = false;
 iceCube = false;
-flameThrower = false;
+flamethrower = false;
 
 image_speed = 0;
 
@@ -225,9 +225,9 @@ else if(keyboard_check_pressed(ord('5')) &amp;&amp; !machineGun) {
     setFalse();
     machineGun = true;
 }
-else if(keyboard_check_pressed(ord('6')) &amp;&amp; !flameThrower) {
+else if(keyboard_check_pressed(ord('6')) &amp;&amp; !flamethrower) {
     setFalse();
-    flameThrower = true;
+    flamethrower = true;
 }
 else if(keyboard_check_pressed(ord('7')) &amp;&amp; !shotgun) {
     setFalse();
@@ -379,10 +379,7 @@ else if(machineGun) {
         reloadCount++;
     }
     else if(reloading) {
-        reloadCount = 0;
-        reloading = false;
-        machineAmmo = MACHINE_CAPACITY;
-        image_speed = 0;
+        
     }
     if(machineCD != 0) {
         machineCD--;
@@ -413,10 +410,7 @@ else if(shotgun) {
         reloadCount++;
     }
     else if(reloading) {
-        reloadCount = 0;
-        reloading = false;
-        shotgunAmmo = SHOTGUN_CAPACITY;
-        image_speed = 0;
+        
     }
     if(shotgunCD != 0) {
         shotgunCD--;
@@ -435,7 +429,7 @@ else if(iceCube) {
 
 }
 //Flamethrower
-else if(flameThrower) {
+else if(flamethrower) {
     if(shooting &amp;&amp; flameAmmo &gt; 0) {
         part_type_direction(global.flame, angle - 5, angle + 5, 0, .10);
         part_type_direction(global.smoke, angle - 5, angle + 5, 0, .10);
@@ -454,10 +448,6 @@ else if(flameThrower) {
         reloadCount++;
     }
     else if(reloading) {
-        reloadCount = 0;
-        reloading = false;
-        flameAmmo = FLAME_CAPACITY;
-        image_speed = 0;
     }
 }
 
@@ -550,6 +540,47 @@ else if(machineGun) {
     }
     else {
         sprite_index = spr_playerMachineShoot;
+        if(image_speed &gt; 0 &amp;&amp; (image_index &gt;= 0 &amp;&amp; image_index &lt; 1)) {
+            reloadCount = 0;
+            reloading = false;
+            machineAmmo = MACHINE_CAPACITY;
+            image_speed = 0;
+            image_index = 0;
+        }
+    }
+}
+else if(shotgun) {
+    if(reloading) {
+        sprite_index = spr_playerShotgunReload;
+        image_speed = .2;
+        if(image_index &gt; image_number - 1) {
+            reloadCount = 0;
+            reloading = false;
+            shotgunAmmo = SHOTGUN_CAPACITY;
+            image_speed = 0;
+        }
+    }
+    else {
+        sprite_index = spr_playerShotgunShoot;
+        if(image_speed &gt; 0 &amp;&amp; (image_index &gt;= 0 &amp;&amp; image_index &lt; 1)) {
+            image_speed = 0;
+            image_index = 0;
+        }
+    }
+}
+else if(flamethrower) {
+    if(reloading) {
+        sprite_index = spr_playerFlamethrowerReload;
+        image_speed = .2;
+        if(image_index &gt; image_number - 1) {
+            reloadCount = 0;
+            reloading = false;
+            flameAmmo = FLAME_CAPACITY;
+            image_speed = 0;
+        }
+    }
+    else {
+        sprite_index = spr_playerFlamethrowerShoot;
         if(image_speed &gt; 0 &amp;&amp; (image_index &gt;= 0 &amp;&amp; image_index &lt; 1)) {
             image_speed = 0;
             image_index = 0;

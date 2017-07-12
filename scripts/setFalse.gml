@@ -7,7 +7,7 @@ with(obj_player1) {
     pistol = false;
     dynamite = false;
     machineGun = false;
-    flameThrower = false;
+    flamethrower = false;
     shotgun = false;
     
     lobActivated = false;
