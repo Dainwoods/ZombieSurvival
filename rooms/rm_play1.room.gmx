@@ -3,8 +3,8 @@
   <caption></caption>
   <width>1536</width>
   <height>864</height>
-  <vsnap>1</vsnap>
-  <hsnap>1</hsnap>
+  <vsnap>8</vsnap>
+  <hsnap>8</hsnap>
   <isometric>0</isometric>
   <speed>60</speed>
   <persistent>0</persistent>
@@ -147,7 +147,6 @@
     <instance objName="obj_spawnRing" x="1466" y="1039" name="inst_3C5C0D03" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_playerAnim" x="969" y="561" name="inst_8EC645D7" locked="0" code="" scaleX="3" scaleY="3" colour="4294967295" rotation="270"/>
     <instance objName="obj_playerHealth" x="1086" y="561" name="inst_AD357FB0" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
-    <instance objName="obj_menu" x="1211" y="433" name="inst_7FDB52D6" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_torch" x="401" y="321" name="inst_433B6A36" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_torch" x="463" y="321" name="inst_AF7412D1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
     <instance objName="obj_torch" x="485" y="331" name="inst_85D5C2D7" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="-45"/>
@@ -165,6 +164,14 @@
     <instance objName="obj_torch" x="334" y="375" name="inst_F538C92E" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="45"/>
     <instance objName="obj_torch" x="377" y="331" name="inst_6737C85C" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="45"/>
     <instance objName="obj_lightControl" x="207" y="104" name="inst_B260185A" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_pistolIcon" x="952" y="216" name="inst_F6EE7485" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_menu" x="1211" y="432" name="inst_C05D754B" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_rockIcon" x="952" y="120" name="inst_0617D530" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_bowIcon" x="952" y="168" name="inst_53F91C58" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_dynamtieIcon" x="952" y="264" name="inst_DBB33763" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_machineGunIcon" x="952" y="312" name="inst_9CB4CA78" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_shotgunIcon" x="952" y="360" name="inst_DDBCADB1" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
+    <instance objName="obj_flamethrowerIcon" x="952" y="408" name="inst_95E4BE50" locked="0" code="" scaleX="1" scaleY="1" colour="4294967295" rotation="0"/>
   </instances>
   <tiles/>
   <PhysicsWorld>0</PhysicsWorld>

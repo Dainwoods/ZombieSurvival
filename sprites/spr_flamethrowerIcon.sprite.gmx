@@ -20,7 +20,7 @@
   <width>64</width>
   <height>40</height>
   <frames>
-    <frame index="0">images\spr_bowIcon_0.png</frame>
-    <frame index="1">images\spr_bowIcon_1.png</frame>
+    <frame index="0">images\spr_flamethrowerIcon_0.png</frame>
+    <frame index="1">images\spr_flamethrowerIcon_1.png</frame>
   </frames>
 </sprite>

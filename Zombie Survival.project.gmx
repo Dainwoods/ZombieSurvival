@@ -6,51 +6,67 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
-    <sprites name="Player Sprites">
-      <sprite>sprites\spr_player1</sprite>
-      <sprites name="Shoot Sprites">
-        <sprite>sprites\spr_playerMachineShoot</sprite>
-        <sprite>sprites\spr_playerFlamethrowerShoot</sprite>
-        <sprite>sprites\spr_playerShotgunShoot</sprite>
-        <sprite>sprites\spr_playerBow</sprite>
-        <sprite>sprites\spr_playerPistolShoot</sprite>
-        <sprite>sprites\spr_playerDynamite</sprite>
-        <sprite>sprites\spr_playerRock</sprite>
+    <sprites name="Character Sprites">
+      <sprites name="Walker Sprites">
+        <sprite>sprites\spr_walkerWalk</sprite>
+        <sprite>sprites\spr_walkerBarricade</sprite>
       </sprites>
-      <sprites name="Reload Sprites">
-        <sprite>sprites\spr_playerRockReload</sprite>
-        <sprite>sprites\spr_playerDynamiteReload</sprite>
-        <sprite>sprites\spr_playerMachineReload</sprite>
-        <sprite>sprites\spr_playerFlamethrowerReload</sprite>
-        <sprite>sprites\spr_playerShotgunReload</sprite>
-        <sprite>sprites\spr_playerBowReload</sprite>
-        <sprite>sprites\spr_playerPistolReload</sprite>
+      <sprites name="Player Sprites">
+        <sprite>sprites\spr_player1</sprite>
+        <sprites name="Shoot Sprites">
+          <sprite>sprites\spr_playerMachineShoot</sprite>
+          <sprite>sprites\spr_playerFlamethrowerShoot</sprite>
+          <sprite>sprites\spr_playerShotgunShoot</sprite>
+          <sprite>sprites\spr_playerBow</sprite>
+          <sprite>sprites\spr_playerPistolShoot</sprite>
+          <sprite>sprites\spr_playerDynamite</sprite>
+          <sprite>sprites\spr_playerRock</sprite>
+        </sprites>
+        <sprites name="Reload Sprites">
+          <sprite>sprites\spr_playerRockReload</sprite>
+          <sprite>sprites\spr_playerDynamiteReload</sprite>
+          <sprite>sprites\spr_playerMachineReload</sprite>
+          <sprite>sprites\spr_playerFlamethrowerReload</sprite>
+          <sprite>sprites\spr_playerShotgunReload</sprite>
+          <sprite>sprites\spr_playerBowReload</sprite>
+          <sprite>sprites\spr_playerPistolReload</sprite>
+        </sprites>
       </sprites>
-    </sprites>
-    <sprites name="Walker Sprites">
-      <sprite>sprites\spr_walkerWalk</sprite>
-      <sprite>sprites\spr_walkerBarricade</sprite>
     </sprites>
     <sprites name="Weapon Sprites">
-      <sprite>sprites\spr_bullet</sprite>
       <sprite>sprites\spr_dynamite</sprite>
       <sprite>sprites\spr_rock</sprite>
       <sprite>sprites\spr_machineBullet</sprite>
-      <sprite>sprites\spr_arrow</sprite>
       <sprite>sprites\spr_shotgunShell</sprite>
+      <sprite>sprites\spr_bullet</sprite>
+      <sprite>sprites\spr_arrow</sprite>
     </sprites>
-    <sprite>sprites\spr_barricade</sprite>
-    <sprite>sprites\spr_tree</sprite>
-    <sprite>sprites\spr_lobMarker</sprite>
-    <sprite>sprites\spr_spawnRing</sprite>
-    <sprite>sprites\spr_playerHealth</sprite>
-    <sprite>sprites\spr_menu</sprite>
-    <sprite>sprites\spr_explosion</sprite>
-    <sprite>sprites\spr_torch</sprite>
-    <sprite>sprites\spr_torchLight</sprite>
-    <sprite>sprites\spr_flashlightLight</sprite>
-    <sprite>sprites\spr_bowIcon</sprite>
-    <sprite>sprites\spr_fire</sprite>
+    <sprites name="Environment Sprites">
+      <sprite>sprites\spr_barricade</sprite>
+      <sprite>sprites\spr_torch</sprite>
+      <sprite>sprites\spr_explosion</sprite>
+      <sprite>sprites\spr_tree</sprite>
+      <sprite>sprites\spr_lobMarker</sprite>
+      <sprite>sprites\spr_spawnRing</sprite>
+    </sprites>
+    <sprites name="Light Sprites">
+      <sprite>sprites\spr_torchLight</sprite>
+      <sprite>sprites\spr_flashlightLight</sprite>
+      <sprite>sprites\spr_fire</sprite>
+    </sprites>
+    <sprites name="Menu Sprites">
+      <sprite>sprites\spr_menu</sprite>
+      <sprite>sprites\spr_playerHealth</sprite>
+      <sprites name="Menu Item Icons">
+        <sprite>sprites\spr_rockIcon</sprite>
+        <sprite>sprites\spr_bowIcon</sprite>
+        <sprite>sprites\spr_pistolIcon</sprite>
+        <sprite>sprites\spr_dynamiteIcon</sprite>
+        <sprite>sprites\spr_machineGunIcon</sprite>
+        <sprite>sprites\spr_shotgunIcon</sprite>
+        <sprite>sprites\spr_flamethrowerIcon</sprite>
+      </sprites>
+    </sprites>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_deathScreen</background>
@@ -71,32 +87,56 @@
     <font>fonts\f_round</font>
   </fonts>
   <objects name="objects">
-    <object>objects\obj_full</object>
-    <object>objects\obj_player1</object>
-    <object>objects\obj_playerAnim</object>
-    <object>objects\obj_barricade</object>
-    <object>objects\obj_bullet</object>
-    <object>objects\obj_machineBullet</object>
-    <object>objects\obj_shotgunShell</object>
-    <object>objects\obj_arrow</object>
-    <object>objects\obj_rock</object>
-    <object>objects\obj_dynamite</object>
-    <object>objects\obj_particle</object>
-    <object>objects\obj_walker</object>
-    <object>objects\obj_tree</object>
-    <object>objects\obj_spawner</object>
-    <object>objects\obj_lobMarker</object>
-    <object>objects\obj_spawnRing</object>
-    <object>objects\obj_playerHealth</object>
-    <object>objects\obj_menu</object>
-    <object>objects\obj_explosion</object>
-    <object>objects\par_enemy</object>
-    <object>objects\obj_torch</object>
-    <object>objects\obj_playerTorch</object>
-    <object>objects\obj_torchLight</object>
-    <object>objects\obj_lightControl</object>
-    <object>objects\par_wall</object>
-    <object>objects\obj_fire</object>
+    <objects name="Character Objects">
+      <object>objects\obj_player1</object>
+      <object>objects\obj_walker</object>
+    </objects>
+    <objects name="Weapon Objects">
+      <object>objects\obj_machineBullet</object>
+      <object>objects\obj_shotgunShell</object>
+      <object>objects\obj_rock</object>
+      <object>objects\obj_dynamite</object>
+      <object>objects\obj_arrow</object>
+      <object>objects\obj_bullet</object>
+    </objects>
+    <objects name="Environment Objects">
+      <object>objects\obj_barricade</object>
+      <object>objects\obj_explosion</object>
+      <object>objects\obj_tree</object>
+      <object>objects\obj_playerTorch</object>
+      <object>objects\obj_lobMarker</object>
+      <object>objects\obj_torch</object>
+      <object>objects\obj_spawnRing</object>
+    </objects>
+    <objects name="Light Objects">
+      <object>objects\obj_fire</object>
+      <object>objects\obj_lightControl</object>
+      <object>objects\obj_torchLight</object>
+    </objects>
+    <objects name="Menu Objects">
+      <object>objects\obj_playerHealth</object>
+      <object>objects\obj_playerAnim</object>
+      <object>objects\obj_menu</object>
+      <objects name="Menu Icon Objects">
+        <object>objects\obj_rockIcon</object>
+        <object>objects\obj_bowIcon</object>
+        <object>objects\obj_pistolIcon</object>
+        <object>objects\obj_dynamtieIcon</object>
+        <object>objects\obj_machineGunIcon</object>
+        <object>objects\obj_shotgunIcon</object>
+        <object>objects\obj_flamethrowerIcon</object>
+      </objects>
+    </objects>
+    <objects name="Parents">
+      <object>objects\par_enemy</object>
+      <object>objects\par_wall</object>
+      <object>objects\par_menuIcon</object>
+    </objects>
+    <objects name="Misc">
+      <object>objects\obj_full</object>
+      <object>objects\obj_spawner</object>
+      <object>objects\obj_particle</object>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_play1</room>

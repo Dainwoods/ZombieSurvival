@@ -29,7 +29,7 @@
 
 currentRound = undefined;
 nextRound = true;
-roundIndex = 0;
+global.roundIndex = 0;
 spawn = 0;
 spawnTimer = irandom_range(.5 * room_speed, 2 * room_speed);
 enemyCount = 0;
@@ -87,13 +87,13 @@ if(!instance_exists(par_enemy)) {
     spawn = spawnTimer + 1;
 }
 
-if(nextRound &amp;&amp; roundIndex &lt; array_length_1d(allRounds)) {
-    currentRound = allRounds[roundIndex];
+if(nextRound &amp;&amp; global.roundIndex &lt; array_length_1d(allRounds)) {
+    currentRound = allRounds[global.roundIndex];
     totalLeft = 0;
     for(i = 0; i &lt; array_length_1d(currentRound); i++) {
         totalLeft += currentRound[i];
     }
-    roundIndex++;
+    global.roundIndex++;
     nextRound = false;
 }
 
@@ -142,13 +142,7 @@ else if(!instance_exists(par_enemy)){
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>text = "Round: " + string(roundIndex);
-text2 = "Money: " + string(global.money);
-draw_set_font(f_round);
-draw_set_color(c_white);
-draw_text_transformed(10, 10, text, 1, 1, 0);
-draw_text_transformed(10, 30, text2, 1, 1, 0);
-</string>
+            <string></string>
           </argument>
         </arguments>
       </action>

@@ -35,9 +35,10 @@ global.money = 0;
 
 sprinting = 1;
 shooting = true;
-lob = false;
+lob = true;
 lobActivated = false;
-rock = true;
+
+/*rock = true;
 bow = false;
 pistol = false;
 dynamite = false;
@@ -47,7 +48,7 @@ shotgun = false;
 laser = false;
 molotov = false;
 iceCube = false;
-flamethrower = false;
+flamethrower = false;*/
 
 image_speed = 0;
 
@@ -70,6 +71,12 @@ reloadCount = 0;
 reloading = false;
 
 torch = instance_create(x, y, obj_playerTorch);
+
+//weaponArr = createArr(rock, bow, pistol, dynamite, machineGun, rifle, shotgun, laser, molotov, iceCube, flamethrower);
+weaponArr = createArr(true, false, false, false, false, false, false, false, false, false, false);
+playerWeapons = createArr(0, 0, 0, 0, 0);
+weaponIndex = 0;
+switchIndex = 0;
 </string>
           </argument>
         </arguments>
@@ -197,7 +204,7 @@ if(hp &lt;= 0) {
           <argument>
             <kind>1</kind>
             <string>///Change weapons
-if(keyboard_check_pressed(ord('1')) &amp;&amp; !bow) {
+/*if(keyboard_check_pressed(ord('1')) &amp;&amp; !bow) {
     setFalse();
     bow = true;
 }
@@ -232,6 +239,37 @@ else if(keyboard_check_pressed(ord('6')) &amp;&amp; !flamethrower) {
 else if(keyboard_check_pressed(ord('7')) &amp;&amp; !shotgun) {
     setFalse();
     shotgun = true;
+}*/
+if(keyboard_check_pressed(ord('1')) &amp;&amp; weaponIndex != 0) {
+    switchIndex = 0;
+}
+else if(keyboard_check_pressed(ord('2')) &amp;&amp; weaponIndex != 1) {
+    switchIndex = 1;
+}
+else if(keyboard_check_pressed(ord('3')) &amp;&amp; weaponIndex != 2) {
+    switchIndex = 2;
+}
+else if(keyboard_check_pressed(ord('4')) &amp;&amp; weaponIndex != 3) {
+    switchIndex = 3;
+}
+else if(keyboard_check_pressed(ord('5')) &amp;&amp; weaponIndex != 4) {
+    switchIndex = 4;
+}
+else {
+    switchIndex = 100;
+}
+if(switchIndex != 100) {
+    weaponArr[playerWeapons[weaponIndex]] = false;
+    weaponIndex = switchIndex;
+    //setFalse();
+    weaponArr[playerWeapons[weaponIndex]] = true;
+    obj_player1.image_index = 0;
+    if(weaponArr[0] || weaponArr[3]) {
+        lob = true;
+    }
+    else {
+        lob = false;
+    }
 }
 </string>
           </argument>
@@ -255,13 +293,13 @@ else if(keyboard_check_pressed(ord('7')) &amp;&amp; !shotgun) {
             <kind>1</kind>
             <string>///Fire weapon
 //Rock
-if(mouse_check_button(mb_left)) {
+if(mouse_check_button(mb_left) &amp;&amp; !position_meeting(mouse_x, mouse_y, obj_menu)) {
     shooting = true;
 }
 else {
     shooting = false;
 }
-if(rock) {
+if(weaponArr[0]) {
     if(shooting &amp;&amp; rockAmmo &gt; 0) {
         instance_create(x, y, obj_rock);
         rockAmmo = 0;
@@ -278,15 +316,11 @@ if(rock) {
         reloadCount++;
     }
     else if(reloading) {
-        shooting = false;
-        reloadCount = 0;
-        reloading = false;
-        rockAmmo = 1;
-        image_speed = 0;
+        
     }
 }
 //Bow and arrow
-else if(bow) {
+else if(weaponArr[1]) {
     if(shooting &amp;&amp; bowAmmo &gt; 0) {
         shooting = true;
         instance_create(x, y, obj_arrow);
@@ -312,7 +346,7 @@ else if(bow) {
     
 }
 //Pistol
-else if(pistol) {
+else if(weaponArr[2]) {
     if(shooting &amp;&amp; pistolAmmo &gt; 0 &amp;&amp; pistolCD == 0) {
         pistolCD = room_speed / 3;
         instance_create(x, y, obj_bullet);
@@ -340,7 +374,7 @@ else if(pistol) {
     }
 }
 //Dynamite
-else if(dynamite) {
+else if(weaponArr[3]) {
     if(shooting &amp;&amp; dynamiteAmmo &gt; 0) {
         instance_create(x, y, obj_dynamite);
         dynamiteAmmo = 0;
@@ -362,7 +396,7 @@ else if(dynamite) {
 }
 
 //Machine Gun
-else if(machineGun) {
+else if(weaponArr[4]) {
     if(shooting &amp;&amp; machineAmmo &gt; 0 &amp;&amp; machineCD == 0) {
         machineCD = room_speed / 10;
         instance_create(x, y, obj_machineBullet);
@@ -386,11 +420,11 @@ else if(machineGun) {
     }
 }
 //Rifle
-else if(rifle) {
+else if(weaponArr[5]) {
 
 }
 //Shotgun
-else if(shotgun) {
+else if(weaponArr[6]) {
     if(shooting &amp;&amp; shotgunAmmo &gt; 0 &amp;&amp; shotgunCD == 0) {
         shotgunCD = room_speed / 3;
         for(i = 0; i &lt; 10; i++) {
@@ -417,19 +451,19 @@ else if(shotgun) {
     }
 }
 //LASER
-else if(laser) {
+else if(weaponArr[7]) {
 
 }
 //Molotov
-else if(molotov) {
+else if(weaponArr[8]) {
 
 }
 //Ice cube
-else if(iceCube) {
+else if(weaponArr[9]) {
 
 }
 //Flamethrower
-else if(flamethrower) {
+else if(weaponArr[10]) {
     if(shooting &amp;&amp; flameAmmo &gt; 0) {
         part_type_direction(global.flame, angle - 5, angle + 5, 0, .10);
         part_type_direction(global.smoke, angle - 5, angle + 5, 0, .10);
@@ -481,7 +515,29 @@ else if(!lob &amp;&amp; instance_exists(obj_lobMarker)) {
           <argument>
             <kind>1</kind>
             <string>///Player sprite controller
-if(bow) {
+//rock
+if(weaponArr[0]) {
+    if(reloading) {
+        sprite_index = spr_playerRockReload;
+        image_speed = .2;
+        if(image_index &gt; image_number - 1) {
+            shooting = false;
+            reloadCount = 0;
+            reloading = false;
+            rockAmmo = 1;
+            image_speed = 0;
+        }
+    }
+    else {
+        sprite_index = spr_playerRock;
+        if(image_speed &gt; 0 &amp;&amp; (image_index &gt;= 0 &amp;&amp; image_index &lt; 1)) {
+            image_speed = 0;
+            image_index = 0;
+        }
+    }
+}
+//bow
+else if(weaponArr[1]) {
     if(reloading) {
         sprite_index = spr_playerBowReload;
         image_speed = .1;
@@ -494,20 +550,8 @@ if(bow) {
         }
     }
 }
-else if(rock) {
-    if(reloading) {
-        sprite_index = spr_playerRockReload;
-        image_speed = .2;
-    }
-    else {
-        sprite_index = spr_playerRock;
-        if(image_speed &gt; 0 &amp;&amp; (image_index &gt;= 0 &amp;&amp; image_index &lt; 1)) {
-            image_speed = 0;
-            image_index = 0;
-        }
-    }
-}
-else if(pistol) {
+//pistol
+else if(weaponArr[2]) {
     if(reloading) {
         sprite_index = spr_playerPistolReload;
         image_speed = .1;
@@ -520,7 +564,8 @@ else if(pistol) {
         }
     }
 }
-else if(dynamite) {
+//dynamite
+else if(weaponArr[3]) {
     if(reloading) {
         sprite_index = spr_playerDynamiteReload;
         image_speed = .2;
@@ -533,7 +578,8 @@ else if(dynamite) {
         }
     }
 }
-else if(machineGun) {
+//machine gun
+else if(weaponArr[4]) {
     if(reloading) {
         sprite_index = spr_playerMachineReload;
         image_speed = .025;
@@ -549,7 +595,12 @@ else if(machineGun) {
         }
     }
 }
-else if(shotgun) {
+//rifle
+else if(weaponArr[5]) {
+    
+}
+//shotgun
+else if(weaponArr[6]) {
     if(reloading) {
         sprite_index = spr_playerShotgunReload;
         image_speed = .2;
@@ -568,7 +619,20 @@ else if(shotgun) {
         }
     }
 }
-else if(flamethrower) {
+//laser
+else if(weaponArr[7]) {
+
+}
+//molotov
+else if(weaponArr[8]) {
+
+}
+//ice cube
+else if(weaponArr[9]) {
+
+}
+//flamethrower
+else if(weaponArr[10]) {
     if(reloading) {
         sprite_index = spr_playerFlamethrowerReload;
         image_speed = .2;
@@ -733,6 +797,36 @@ else {
           <argument>
             <kind>1</kind>
             <string>//instance_create(x, y, obj_rock);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="64">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>text = "Round: " + string(global.roundIndex);
+text2 = "Money: " + string(global.money);
+text3 = "Index: " + string(weaponIndex);
+draw_set_font(f_round);
+draw_set_color(c_white);
+draw_text_transformed(10, 10, text, 1, 1, 0);
+draw_text_transformed(10, 30, text2, 1, 1, 0);
+draw_text_transformed(10, 50, text3, 1, 1, 0);
 </string>
           </argument>
         </arguments>
