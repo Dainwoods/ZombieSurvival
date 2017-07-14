@@ -61,6 +61,11 @@ with(obj_torchLight) {
     draw_sprite_ext(spr_torchLight, 0, x, y, lightSize, lightSize, 0, c_white, lightStrength);
     draw_set_blend_mode(bm_normal);
 }
+with(obj_playerLight) {
+    draw_set_blend_mode(bm_subtract);
+    draw_sprite_ext(spr_torchLight, 0, x, y, lightSize, lightSize, 0, c_white, lightStrength);
+    draw_set_blend_mode(bm_normal);
+}
 surface_reset_target();
 draw_set_blend_mode(bm_normal);
 </string>

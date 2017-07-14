@@ -48,9 +48,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>with(obj_player1) {
-    other.image_index = 10 - hp;
-}
+            <string>image_index = (image_number - 1) - obj_player1.hp;
 </string>
           </argument>
         </arguments>

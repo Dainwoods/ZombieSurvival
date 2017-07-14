@@ -51,12 +51,14 @@
     </sprites>
     <sprites name="Light Sprites">
       <sprite>sprites\spr_torchLight</sprite>
+      <sprite>sprites\spr_playerLight</sprite>
       <sprite>sprites\spr_flashlightLight</sprite>
       <sprite>sprites\spr_fire</sprite>
     </sprites>
     <sprites name="Menu Sprites">
       <sprite>sprites\spr_menu</sprite>
       <sprite>sprites\spr_playerHealth</sprite>
+      <sprite>sprites\spr_menuItemBar</sprite>
       <sprites name="Menu Item Icons">
         <sprite>sprites\spr_rockIcon</sprite>
         <sprite>sprites\spr_bowIcon</sprite>
@@ -71,6 +73,7 @@
   <backgrounds name="background">
     <background>background\bg_deathScreen</background>
     <background>background\bg_play2</background>
+    <background>background\background3</background>
     <background>background\background2</background>
   </backgrounds>
   <paths name="paths"/>
@@ -96,12 +99,12 @@
       <object>objects\obj_shotgunShell</object>
       <object>objects\obj_rock</object>
       <object>objects\obj_dynamite</object>
+      <object>objects\obj_explosion</object>
       <object>objects\obj_arrow</object>
       <object>objects\obj_bullet</object>
     </objects>
     <objects name="Environment Objects">
       <object>objects\obj_barricade</object>
-      <object>objects\obj_explosion</object>
       <object>objects\obj_tree</object>
       <object>objects\obj_playerTorch</object>
       <object>objects\obj_lobMarker</object>
@@ -112,6 +115,7 @@
       <object>objects\obj_fire</object>
       <object>objects\obj_lightControl</object>
       <object>objects\obj_torchLight</object>
+      <object>objects\obj_playerLight</object>
     </objects>
     <objects name="Menu Objects">
       <object>objects\obj_playerHealth</object>
@@ -126,6 +130,8 @@
         <object>objects\obj_shotgunIcon</object>
         <object>objects\obj_flamethrowerIcon</object>
       </objects>
+      <object>objects\obj_inventoryIcon</object>
+      <object>objects\obj_menuItemBar</object>
     </objects>
     <objects name="Parents">
       <object>objects\par_enemy</object>

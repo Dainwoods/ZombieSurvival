@@ -3,7 +3,7 @@
   <spriteName>spr_player1</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>0</depth>
+  <depth>-102</depth>
   <persistent>0</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -28,7 +28,7 @@
             <string>randomize();
 x = room_height / 2;
 y = x;
-hp = 10;
+hp = 100;
 angle = 0;
 
 global.money = 0;
@@ -70,6 +70,7 @@ flameAmmo = FLAME_CAPACITY;
 reloadCount = 0;
 reloading = false;
 
+light = instance_create(x, y, obj_playerLight);
 torch = instance_create(x, y, obj_playerTorch);
 
 //weaponArr = createArr(rock, bow, pistol, dynamite, machineGun, rifle, shotgun, laser, molotov, iceCube, flamethrower);
@@ -259,10 +260,12 @@ else {
     switchIndex = 100;
 }
 if(switchIndex != 100) {
+    obj_menuItemBar.iconArr[weaponIndex].selected = false;
     weaponArr[playerWeapons[weaponIndex]] = false;
     weaponIndex = switchIndex;
     //setFalse();
     weaponArr[playerWeapons[weaponIndex]] = true;
+    obj_menuItemBar.iconArr[weaponIndex].selected = true;
     obj_player1.image_index = 0;
     if(weaponArr[0] || weaponArr[3]) {
         lob = true;
@@ -307,7 +310,7 @@ if(weaponArr[0]) {
         image_speed = .1;
         shooting = true;
     }
-    else if(rockAmmo == 0 &amp;&amp; !reloading &amp;&amp; image_index &gt;= 3) {
+    else if(rockAmmo == 0 &amp;&amp; !reloading /*&amp;&amp; image_index &gt;= 3*/) {
         shooting = false;
         reloading = true;
     }
@@ -583,13 +586,17 @@ else if(weaponArr[4]) {
     if(reloading) {
         sprite_index = spr_playerMachineReload;
         image_speed = .025;
+        if(image_index &gt; image_number - 1) {
+            reloadCount = 0;
+            reloading = false;
+            machineAmmo = MACHINE_CAPACITY;
+            image_index = 0;
+            image_speed = 0;
+        }
     }
     else {
         sprite_index = spr_playerMachineShoot;
         if(image_speed &gt; 0 &amp;&amp; (image_index &gt;= 0 &amp;&amp; image_index &lt; 1)) {
-            reloadCount = 0;
-            reloading = false;
-            machineAmmo = MACHINE_CAPACITY;
             image_speed = 0;
             image_index = 0;
         }
@@ -635,7 +642,7 @@ else if(weaponArr[9]) {
 else if(weaponArr[10]) {
     if(reloading) {
         sprite_index = spr_playerFlamethrowerReload;
-        image_speed = .2;
+        image_speed = .05;
         if(image_index &gt; image_number - 1) {
             reloadCount = 0;
             reloading = false;
@@ -775,29 +782,6 @@ else {
           <argument>
             <kind>1</kind>
             <string></string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="6" enumb="53">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>//instance_create(x, y, obj_rock);
-</string>
           </argument>
         </arguments>
       </action>

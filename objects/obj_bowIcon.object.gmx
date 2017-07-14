@@ -3,7 +3,7 @@
   <spriteName>spr_bowIcon</spriteName>
   <solid>0</solid>
   <visible>-1</visible>
-  <depth>-101</depth>
+  <depth>-102</depth>
   <persistent>0</persistent>
   <parentName>par_menuIcon</parentName>
   <maskName>&lt;undefined&gt;</maskName>
@@ -25,8 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>price = 2;
-weaponIndex = 2;
+            <string>price = 1;
+weaponIndex = 1;
 </string>
           </argument>
         </arguments>

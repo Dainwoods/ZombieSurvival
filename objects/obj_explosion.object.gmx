@@ -28,7 +28,7 @@
             <string>image_speed = 1/2;
 if(instance_place(x, y, par_enemy)) {
     with(par_enemy) {
-        if(place_meeting(x, y, obj_explosion)) {
+        if(place_meeting(x, y, other)) {
             if(hp &gt; 100) {
                 part_particles_create(global.system, x, y, global.bloodPart, 3);
             }
@@ -39,9 +39,14 @@ if(instance_place(x, y, par_enemy)) {
         }
     }
 }
+if(instance_place(x, y, obj_player1)) {
+    with(obj_player1) {
+        hp -= 10;
+    }
+}
 if(instance_place(x, y, obj_barricade)) {
     with(obj_barricade) {
-        if(place_meeting(x, y, obj_explosion)) {
+        if(place_meeting(x, y, other)) {
             hp -= 2;
             part_particles_create(global.system, other.x, other.y, global.barrPart, 10);
         }
@@ -75,7 +80,6 @@ else {
             <string>if(image_index &gt; image_number - 1) {
     instance_destroy();
 }
-show_debug_message(image_index);
 </string>
           </argument>
         </arguments>

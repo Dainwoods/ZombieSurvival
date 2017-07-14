@@ -28,7 +28,7 @@
             <string>
 image_angle = point_direction(x, y, min(864, mouse_x), mouse_y);
 length = point_distance(x, y, min(864, mouse_x), mouse_y);
-
+landed = false;
 xDir = (min(864, mouse_x) - x) / length;
 yDir = (mouse_y - y) / length;
 endX = min(864, mouse_x);
@@ -59,33 +59,37 @@ image_speed = .5;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(x == endX &amp;&amp; y == endY) {
+            <string>/*if(x == endX &amp;&amp; y == endY) {
+    landed = true;
     destroy++;
     if(destroy == 3 * room_speed) {
         instance_destroy();
     }
 }
-else if(point_distance(x, y, endX, endY) &lt; 5) {
+else */if(point_distance(x, y, endX, endY) &lt; 5) {
     x = endX;
     y = endY;
     image_xscale = 1;
     image_yscale = 1;
     image_speed = 0;
-    with(obj_walker) {
-        if(position_meeting(x, y, obj_rock)) {
-            obj_rock.collide = true;
-            if(hp &gt; 50) {
-                part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
+    if(instance_place(x, y, par_enemy)) {
+        collide = true;
+        with(par_enemy) {
+            if(place_meeting(x, y, other) /*&amp;&amp; !instance_place(x, y, obj_rock).landed*/) {
+                if(hp &gt; 50) {
+                    part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
+                }
+                else {
+                    part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 10);
+                }
+                hp -= 50;  
             }
-            else {
-                part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 10);
-            }
-            hp -= 50;  
         }
     }
     if(!collide) {
         part_particles_create(global.system, x, y, global.dirtPart, 10);
     }
+    instance_destroy();
     /*if(position_meeting(x, y, obj_walker)) {
         with(instance_place(x, y, obj_walker)) {
             if(hp &gt; 50) {

@@ -25,7 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>player = instance_place(x, y, obj_player1);
+            <string>player = obj_player1;
 depth = player.depth + 1;
 light = instance_create(x, y, obj_torchLight);
 alarm[0] = room_speed / 4;

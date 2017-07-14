@@ -51,12 +51,12 @@ spd = 8;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(position_meeting(x + (spd * xDir), y + (spd * yDir), obj_walker)) {
-    while(!position_meeting(x + sign(xDir), y + sign(yDir), obj_walker)) {
+            <string>if(place_meeting(x + (spd * xDir), y + (spd * yDir), obj_walker)) {
+    while(!place_meeting(x + sign(xDir), y + sign(yDir), obj_walker)) {
         x += xDir;
         y += yDir;
     }
-    with(instance_position(x + sign(xDir), y + sign(yDir), obj_walker)) {
+    with(instance_place(x + sign(xDir), y + sign(yDir), obj_walker)) {
         part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
         hp -= 50;
     }

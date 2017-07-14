@@ -76,7 +76,7 @@ part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloo
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>obj_player1.hp--;
+            <string>obj_player1.hp -= 5;
 </string>
           </argument>
         </arguments>
@@ -151,7 +151,6 @@ part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloo
             <kind>1</kind>
             <string>image_angle = point_direction(x, y, obj_player1.x, obj_player1.y);
 length = point_distance(x, y, obj_player1.x, obj_player1.y);
-
 xDir = (obj_player1.x - x) / length;
 yDir = (obj_player1.y - y) / length;
 </string>
@@ -180,7 +179,7 @@ yDir = (obj_player1.y - y) / length;
     fireIndex++;
     if(fireIndex &gt;= room_speed / 10) {
         part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
-        hp--;
+        hp -= 2;
         fireIndex = 0;
         damaged = true;
     }

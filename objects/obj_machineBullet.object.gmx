@@ -51,16 +51,18 @@ spd = 8;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(position_meeting(x + (spd * xDir), y + (spd * yDir), obj_walker)) {
-    while(!position_meeting(x + sign(xDir), y + sign(yDir), obj_walker)) {
-        x += xDir;
-        y += yDir;
+            <string>if(position_meeting(x + (spd * xDir), y + (spd * yDir), par_enemy)) {
+    //while(!position_meeting(x + sign(xDir), y + sign(yDir), obj_walker)) {
+        x += xDir * spd;
+        y += yDir * spd;
+    //}
+    if(position_meeting(x, y, par_enemy)) {
+        with(instance_position(x + sign(xDir), y + sign(yDir), par_enemy)) {
+            part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
+            hp -= 40;
+        }
+        instance_destroy();
     }
-    with(instance_position(x + sign(xDir), y + sign(yDir), obj_walker)) {
-        part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
-        hp -= 40;
-    }
-    instance_destroy();
 }
 else {
     x += (spd * xDir);
