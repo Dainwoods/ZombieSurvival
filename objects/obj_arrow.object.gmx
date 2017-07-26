@@ -29,6 +29,7 @@
 xDir = dcos(image_angle);
 yDir = -dsin(image_angle);
 spd = 4;
+damage = 50; //was 75
 </string>
           </argument>
         </arguments>
@@ -57,23 +58,14 @@ spd = 4;
         y += yDir;
     }
     with(instance_position(x + sign(xDir), y + sign(yDir), obj_walker)) {
-        if(hp &gt; 75) {
-            part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
-        }
-        else {
-            part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 10);
-        }
-        hp -= 75;
+        part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
+        hp -= other.damage;
     }
     instance_destroy();
 }
 else {
     x += (spd * xDir);
     y += (spd * yDir);
-}
-
-if(x &gt; 864) {
-    instance_destroy();
 }
 </string>
           </argument>

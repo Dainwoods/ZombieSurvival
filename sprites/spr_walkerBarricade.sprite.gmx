@@ -24,5 +24,9 @@
     <frame index="1">images\spr_walkerBarricade_1.png</frame>
     <frame index="2">images\spr_walkerBarricade_2.png</frame>
     <frame index="3">images\spr_walkerBarricade_3.png</frame>
+    <frame index="4">images\spr_walkerBarricade_4.png</frame>
+    <frame index="5">images\spr_walkerBarricade_5.png</frame>
+    <frame index="6">images\spr_walkerBarricade_6.png</frame>
+    <frame index="7">images\spr_walkerBarricade_7.png</frame>
   </frames>
 </sprite>

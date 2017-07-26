@@ -25,11 +25,20 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>hp = WALKER_HEALTH;
+            <string>///Creates local variables
+hp = WALKER_HEALTH;
 fireIndex = 0;
 spd = .5;
 image_speed = .075;
 damaged = false;
+attacking = false;
+barricade = undefined;
+spiral = false;
+spiralDegree = random_range(50, 75);
+spiralDuration = random_range(3, 7);
+spiralSign = 1;
+zigzag = false;
+frozen = false;
 </string>
           </argument>
         </arguments>
@@ -52,8 +61,32 @@ damaged = false;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>global.money += choose(1, 2, 3);
+            <string>///Death Handler
+global.money += choose(1, 2, 3);
 part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 7);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="2" enumb="2">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>frozen = false;
 </string>
           </argument>
         </arguments>
@@ -76,7 +109,8 @@ part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloo
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>obj_player1.hp -= 5;
+            <string>///Disable Spiral
+spiral = false;
 </string>
           </argument>
         </arguments>
@@ -99,12 +133,9 @@ part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloo
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>with(instance_place(x + sign(xDir), y + sign(yDir), obj_barricade)) {
-    if(hp mod(2) == 1) {
-        part_particles_create(global.system, other.x, other.y, global.barrPart, 10);
-    }
-    hp--;
-}
+            <string>///Spiral Handler
+spiralSign *= -1;
+image_angle = point_direction(x, y, obj_player1.x, obj_player1.y) + (spiralSign * 10);
 </string>
           </argument>
         </arguments>
@@ -127,7 +158,37 @@ part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloo
         <arguments>
           <argument>
             <kind>1</kind>
-            <string></string>
+            <string>///Death Handler
+if(hp &lt;= 0) {
+    instance_destroy();
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Undefined Barricade Stuff
+if(barricade != undefined) {
+    if(!instance_exists(barricade)) {
+        barricade = undefined;
+    }
+}
+</string>
           </argument>
         </arguments>
       </action>
@@ -149,10 +210,33 @@ part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloo
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>image_angle = point_direction(x, y, obj_player1.x, obj_player1.y);
-length = point_distance(x, y, obj_player1.x, obj_player1.y);
-xDir = (obj_player1.x - x) / length;
-yDir = (obj_player1.y - y) / length;
+            <string>///Handles Movement Direction
+if(spiral) {
+    if(alarm[1] &lt;= 0) {
+        alarm[1] = spiralDuration * room_speed;
+    }
+    image_angle = point_direction(x, y, obj_player1.x, obj_player1.y) + (spiralSign * spiralDegree);
+    var newX = x + (10 * dcos(image_angle));
+    var newY = y - (10 * dsin(image_angle));
+    var newLength = point_distance(x, y, newX, newY);
+    xDir = (newX - x) / newLength;
+    yDir = (newY - y) / newLength;
+}
+else if(zigzag) {
+    if(alarm[0] &lt;= 0) {
+        alarm[0] = room_speed;
+    }
+    length = point_distance(x, y, obj_player1.x, obj_player1.y);
+    xDir = (obj_player1.x - x) / length;
+    yDir = (obj_player1.y - y) / length;
+}
+else {
+    image_angle = point_direction(x, y, obj_player1.x, obj_player1.y);
+    length = point_distance(x, y, obj_player1.x, obj_player1.y);
+    xDir = (obj_player1.x - x) / length;
+    yDir = (obj_player1.y - y) / length;
+}
+
 </string>
           </argument>
         </arguments>
@@ -175,7 +259,8 @@ yDir = (obj_player1.y - y) / length;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(place_meeting(x, y, obj_fire)) {
+            <string>///Handles Fire Damage
+if(place_meeting(x, y, obj_fire)) {
     fireIndex++;
     if(fireIndex &gt;= room_speed / 10) {
         part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
@@ -207,31 +292,34 @@ else {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
-    if(hp &lt;= 0) {
-        instance_destroy();
-    }
-
+            <string>///Movement and Collisions Handler
+if(frozen) {
+    image_speed = 0;
+}
+else if(!attacking) {
     if(place_meeting(x + (spd * xDir), y, obj_barricade)) {
         while(!place_meeting(x + (sign(xDir) / 10), y, obj_barricade)) {
             x += sign(xDir) / 10;
         }
-        sprite_index = spr_walkerBarricade;
+        /*sprite_index = spr_walkerBarricade;
         if(alarm[0] &lt;= 0) {
             alarm[0] = room_speed;
-        }
+        }*/
+        barricade = instance_place(x + sign(xDir), y, obj_barricade);
+        attacking = true;
     }
     else if(place_meeting(x + (spd * xDir), y, obj_player1)) {
         while(!place_meeting(x + (sign(xDir) / 10), y, obj_player1)) {
             x += sign(xDir) / 10;
         }
-        sprite_index = spr_walkerBarricade;
+        /*sprite_index = spr_walkerBarricade;
         if(alarm[1] &lt;= 0) {
             alarm[1] = room_speed;
-        }
+        }*/
+        attacking = true;
     }
     else {
-        sprite_index = spr_walkerWalk
+        //sprite_index = spr_walkerWalk
         x += spd * xDir;
     }
     
@@ -239,24 +327,75 @@ else {
         while(!place_meeting(x, y + (sign(yDir) / 10), obj_barricade)) {
             y += sign(yDir) / 10;
         }
-        sprite_index = spr_walkerBarricade;
+        /*sprite_index = spr_walkerBarricade;
         if(alarm[0] &lt;= 0) {
             alarm[0] = room_speed;
-        }
+        }*/
+        barricade = instance_place(x, y + sign(yDir), obj_barricade);
+        attacking = true;
     }
     else if(place_meeting(x, y + (spd * yDir), obj_player1)) {
         while(!place_meeting(x, y + (sign(yDir) / 10), obj_player1)) {
             y += sign(yDir) / 10;
         }
-        sprite_index = spr_walkerBarricade;
+        /*sprite_index = spr_walkerBarricade;
         if(alarm[1] &lt;= 0) {
             alarm[1] = room_speed;
-        }
+        }*/
+        attacking = true;
     }
     else {
-        sprite_index = spr_walkerWalk
+        //sprite_index = spr_walkerWalk
         y += spd * yDir
     }
+}
+</string>
+          </argument>
+        </arguments>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>///Animation Handler
+if(!frozen) {
+if(attacking) {
+    sprite_index = spr_walkerBarricade;
+    image_speed = image_number / room_speed;
+    if(image_index &gt; image_number - 1) {
+        attacking = false;
+        if(barricade != undefined) {
+            with(barricade) {
+                if(hp mod(2) == 1) {
+                    part_particles_create(global.system, other.x, other.y, global.barrPart, 10);
+                }
+                hp--;
+            }
+            barricade = undefined;
+        }
+        else {
+            obj_player1.hp -= 5;
+        }
+        image_index = 0;
+    }
+}
+else {
+    sprite_index = spr_walkerWalk;
+    image_speed = .075;
+}
+}
 </string>
           </argument>
         </arguments>

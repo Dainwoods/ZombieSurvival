@@ -36,15 +36,16 @@ enemyCount = 0;
 enemyTotal = irandom_range(8, 10);
 
 //round = [walker, skeleton, etc..];
-enemies = createArr(obj_walker);
-round1 = createArr(8);
-round2 = createArr(14);
-round3 = createArr(20);
-round4 = createArr(26);
-round5 = createArr(32);
-round6 = createArr(38);
-round7 = createArr(44);
-round8 = createArr(50);
+//round = [
+enemies = createArr(obj_walker, obj_walker, obj_walker);
+round1 = createArr(0, 8, 0); //8
+round2 = createArr(0, 0, 14);
+round3 = createArr(20, 0, 0);
+round4 = createArr(26, 0, 0);
+round5 = createArr(32, 0, 0);
+round6 = createArr(38, 0, 0);
+round7 = createArr(44, 0, 0);
+round8 = createArr(50, 0, 0);
 
 allRounds = createArr(round1, round2, round3, round4, round5, round6, round7, round8);
 </string>
@@ -103,10 +104,20 @@ if(spawn &gt;= spawnTimer &amp;&amp; totalLeft &gt; 0) {
     var yPos = (room_height / 2) + (450 * dsin(angle));
     var enemyIndex = irandom_range(0, array_length_1d(enemies) - 1);
     while(currentRound[enemyIndex] == 0) {
-        enemyIndex = irandom_range(0, array_length_1d(enemies));
+        enemyIndex = irandom_range(0, array_length_1d(enemies) - 1);
     }
-    instance_create(xPos, yPos, enemies[enemyIndex]);
+    var enemy = instance_create(xPos, yPos, enemies[enemyIndex]);
+    if(enemyIndex == 1) {
+        show_debug_message("1");
+        enemy.spiral = true;
+        enemy.spiralSign = choose(-1, 1);
+    }
+    else if(enemyIndex == 2) {
+        show_debug_message("2");
+        enemy.zigzag = true;
+    }
     totalLeft--;
+    currentRound[enemyIndex]--;
     spawn = 0;
     spawnTimer = irandom_range(.5 * room_speed, 2 * room_speed);
 }

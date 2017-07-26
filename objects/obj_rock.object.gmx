@@ -36,6 +36,7 @@ endY = mouse_y;
 spd = 5;
 destroy = 0;
 collide = false;
+damage = 25;
 image_speed = .5;
 </string>
           </argument>
@@ -76,13 +77,8 @@ else */if(point_distance(x, y, endX, endY) &lt; 5) {
         collide = true;
         with(par_enemy) {
             if(place_meeting(x, y, other) /*&amp;&amp; !instance_place(x, y, obj_rock).landed*/) {
-                if(hp &gt; 50) {
-                    part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
-                }
-                else {
-                    part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 10);
-                }
-                hp -= 50;  
+                part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
+                hp -= other.damage;  
             }
         }
     }

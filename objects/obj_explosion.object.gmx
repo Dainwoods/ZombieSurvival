@@ -4,7 +4,7 @@
   <solid>0</solid>
   <visible>-1</visible>
   <depth>0</depth>
-  <persistent>0</persistent>
+  <persistent>-1</persistent>
   <parentName>&lt;undefined&gt;</parentName>
   <maskName>&lt;undefined&gt;</maskName>
   <events>
@@ -26,28 +26,26 @@
           <argument>
             <kind>1</kind>
             <string>image_speed = 1/2;
+enemyDamage = 100;
+playerDamage = 10;
+barricadeDamage = 2;
 if(instance_place(x, y, par_enemy)) {
     with(par_enemy) {
         if(place_meeting(x, y, other)) {
-            if(hp &gt; 100) {
-                part_particles_create(global.system, x, y, global.bloodPart, 3);
-            }
-            else {
-                part_particles_create(global.system, x, y, global.bloodPart, 10);
-            }
-            hp -= 100;
+            part_particles_create(global.system, x, y, global.bloodPart, 3);
+            hp -= other.enemyDamage;
         }
     }
 }
 if(instance_place(x, y, obj_player1)) {
     with(obj_player1) {
-        hp -= 10;
+        hp -= other.playerDamage;
     }
 }
 if(instance_place(x, y, obj_barricade)) {
     with(obj_barricade) {
         if(place_meeting(x, y, other)) {
-            hp -= 2;
+            hp -= other.barricadeDamage;
             part_particles_create(global.system, other.x, other.y, global.barrPart, 10);
         }
     }

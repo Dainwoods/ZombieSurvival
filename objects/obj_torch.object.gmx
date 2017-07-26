@@ -25,8 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>barricade = instance_place(x, y, obj_barricade);
-depth = barricade.depth - 1;
+            <string>placed = false;
+depth = obj_player1.depth + 1;
 light = instance_create(x, y, obj_torchLight);
 alarm[0] = room_speed / 4;
 </string>
@@ -102,6 +102,29 @@ alarm[0] = room_speed / 4;
             <kind>1</kind>
             <string>image_speed = 0;
 
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="7" enumb="4">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>placed = true;
 </string>
           </argument>
         </arguments>

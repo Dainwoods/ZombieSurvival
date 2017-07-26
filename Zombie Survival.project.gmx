@@ -96,8 +96,10 @@
     </objects>
     <objects name="Weapon Objects">
       <object>objects\obj_machineBullet</object>
+      <object>objects\obj_rifleBullet</object>
       <object>objects\obj_shotgunShell</object>
       <object>objects\obj_rock</object>
+      <object>objects\obj_iceCube</object>
       <object>objects\obj_dynamite</object>
       <object>objects\obj_explosion</object>
       <object>objects\obj_arrow</object>
@@ -106,9 +108,9 @@
     <objects name="Environment Objects">
       <object>objects\obj_barricade</object>
       <object>objects\obj_tree</object>
-      <object>objects\obj_playerTorch</object>
-      <object>objects\obj_lobMarker</object>
       <object>objects\obj_torch</object>
+      <object>objects\obj_lobMarker</object>
+      <object>objects\obj_barricadeTorch</object>
       <object>objects\obj_spawnRing</object>
     </objects>
     <objects name="Light Objects">
@@ -129,6 +131,8 @@
         <object>objects\obj_machineGunIcon</object>
         <object>objects\obj_shotgunIcon</object>
         <object>objects\obj_flamethrowerIcon</object>
+        <object>objects\obj_torchIcon</object>
+        <object>objects\obj_barricadeIcon</object>
       </objects>
       <object>objects\obj_inventoryIcon</object>
       <object>objects\obj_menuItemBar</object>
@@ -136,7 +140,7 @@
     <objects name="Parents">
       <object>objects\par_enemy</object>
       <object>objects\par_wall</object>
-      <object>objects\par_menuIcon</object>
+      <object>objects\par_menuWeaponIcon</object>
     </objects>
     <objects name="Misc">
       <object>objects\obj_full</object>
@@ -152,7 +156,7 @@
     <constant name="CIRCLE_RAD">432</constant>
     <constant name="WALKER_HEALTH">100</constant>
     <constant name="PISTOL_CAPACITY">6</constant>
-    <constant name="MACHINE_CAPACITY">30</constant>
+    <constant name="MACHINE_CAPACITY">100</constant>
     <constant name="RIFLE_CAPACITY">8</constant>
     <constant name="SHOTGUN_CAPACITY">2</constant>
     <constant name="LASER_CAPACITY">10</constant>

@@ -25,7 +25,8 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>randomize();
+            <string>///Variable fun
+randomize();
 x = room_height / 2;
 y = x;
 hp = 100;
@@ -59,19 +60,25 @@ rockAmmo = 1;
 dynamiteAmmo = 1;
 machineAmmo = MACHINE_CAPACITY;
 machineCD = 0;
+spray = 0;
 rifleAmmo = RIFLE_CAPACITY;
+rifleCD = 0;
 shotgunAmmo = SHOTGUN_CAPACITY;
 shotgunCD = 0;
 laserAmmo = LASER_CAPACITY
 molotovAmmo = 1;
-iceCubeAmmo = 1;
+iceAmmo = 1;
 flameAmmo = FLAME_CAPACITY;
 
 reloadCount = 0;
 reloading = false;
 
 light = instance_create(x, y, obj_playerLight);
-torch = instance_create(x, y, obj_playerTorch);
+instance_create(x, y, obj_torch);
+
+holdingItem = false;
+heldItem = undefined;
+invalidPlacing = false;
 
 //weaponArr = createArr(rock, bow, pistol, dynamite, machineGun, rifle, shotgun, laser, molotov, iceCube, flamethrower);
 weaponArr = createArr(true, false, false, false, false, false, false, false, false, false, false);
@@ -98,7 +105,7 @@ switchIndex = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>
+            <string>///Flame particles
 global.fire = part_system_create();
 global.flame = part_type_create();
 var flamep = global.flame;
@@ -131,6 +138,29 @@ global.em = part_emitter_create(global.fire);
         </arguments>
       </action>
     </event>
+    <event eventtype="2" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>invalidPlacing = false;
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
     <event eventtype="3" enumb="1">
       <action>
         <libid>1</libid>
@@ -148,12 +178,14 @@ global.em = part_emitter_create(global.fire);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>moveForward = -keyboard_check(ord("W"));
+            <string>///Get player input
+moveForward = -keyboard_check(ord("W"));
 moveBack = keyboard_check(ord("S"));
 moveLeft = -keyboard_check(ord("A"));
 moveRight = keyboard_check(ord("D"));
 moveStraight = (moveForward + moveBack) * WALKING_SPEED;
 moveSide = (moveLeft + moveRight) * WALKING_SPEED;
+keyR = keyboard_check_pressed(ord("R"));
 </string>
           </argument>
         </arguments>
@@ -296,6 +328,8 @@ if(switchIndex != 100) {
             <kind>1</kind>
             <string>///Fire weapon
 //Rock
+if(!holdingItem) {
+
 if(mouse_check_button(mb_left) &amp;&amp; !position_meeting(mouse_x, mouse_y, obj_menu)) {
     shooting = true;
 }
@@ -401,6 +435,8 @@ else if(weaponArr[3]) {
 //Machine Gun
 else if(weaponArr[4]) {
     if(shooting &amp;&amp; machineAmmo &gt; 0 &amp;&amp; machineCD == 0) {
+        spray++;
+        spray = clamp(spray, 0, 10);
         machineCD = room_speed / 10;
         instance_create(x, y, obj_machineBullet);
         distanceToMouse = point_distance(room_height / 2, room_height / 2, mouse_x, mouse_y); 
@@ -418,13 +454,38 @@ else if(weaponArr[4]) {
     else if(reloading) {
         
     }
+    else if(machineCD &lt;= 0) {
+        spray -= .1;
+        spray = clamp(spray, 0, 10);
+    }
     if(machineCD != 0) {
         machineCD--;
     }
 }
 //Rifle
 else if(weaponArr[5]) {
+    if(shooting &amp;&amp; rifleAmmo &gt; 0 &amp;&amp; rifleCD == 0) {
+        rifleCD = room_speed / 3;
+        instance_create(x, y, obj_rifleBullet);
+        //distanceToMouse = point_distance(room_height / 2, room_height / 2, mouse_x, mouse_y); 
+        //part_particles_create(global.system, x + (7 * ((mouse_x - x) / distanceToMouse)), y + (8 * ((mouse_y - y) / distanceToMouse)), global.pistolPart, 5);
+        part_particles_create(global.system, x, y, global.pistolPart, 5); 
+        rifleAmmo--;
+        image_index++;
+        image_speed = .4;
+    }
+    else if(((rifleAmmo == 0 /*&amp;&amp; mouse_check_button_pressed(mb_left)*/) || (keyboard_check_pressed(ord('R')) &amp;&amp; rifleAmmo != RIFLE_CAPACITY)) &amp;&amp; !reloading) {
+        reloading = true;
+    }
+    else if(reloadCount &lt; 1.2 * room_speed &amp;&amp; reloading) {
+        reloadCount++;
+    }
+    else if(reloading) {
 
+    }
+    if(rifleCD != 0) {
+        rifleCD--;
+    }
 }
 //Shotgun
 else if(weaponArr[6]) {
@@ -463,7 +524,24 @@ else if(weaponArr[8]) {
 }
 //Ice cube
 else if(weaponArr[9]) {
-
+    if(shooting &amp;&amp; iceAmmo &gt; 0) {
+        instance_create(x, y, obj_iceCube);
+        iceAmmo = 0;
+        image_index++;
+        image_speed = .1;
+        shooting = true;
+    }
+    else if(iceAmmo == 0 &amp;&amp; !reloading /*&amp;&amp; image_index &gt;= 3*/) {
+        shooting = false;
+        reloading = true;
+    }
+    else if(reloadCount &lt; .6 * room_speed &amp;&amp; reloading) {
+        shooting = false;
+        reloadCount++;
+    }
+    else if(reloading) {
+        
+    }
 }
 //Flamethrower
 else if(weaponArr[10]) {
@@ -496,6 +574,8 @@ else if(!lob &amp;&amp; instance_exists(obj_lobMarker)) {
     with(obj_lobMarker) {
         instance_destroy();
     }
+}
+
 }
 </string>
           </argument>
@@ -604,7 +684,24 @@ else if(weaponArr[4]) {
 }
 //rifle
 else if(weaponArr[5]) {
-    
+    if(reloading) {
+        sprite_index = spr_playerMachineReload;
+        image_speed = .1;
+        if(image_index &gt;= image_number - 1) {
+            reloadCount = 0;
+            reloading = false;
+            rifleAmmo = RIFLE_CAPACITY;
+            image_index = 0;
+            image_speed = 0;
+        }
+    }
+    else {
+        sprite_index = spr_playerMachineShoot;
+        if(image_speed &gt; 0 &amp;&amp; (image_index &gt;= 0 &amp;&amp; image_index &lt; 1)) {
+            image_speed = 0;
+            image_index = 0;
+        }
+    }
 }
 //shotgun
 else if(weaponArr[6]) {
@@ -636,7 +733,24 @@ else if(weaponArr[8]) {
 }
 //ice cube
 else if(weaponArr[9]) {
-
+if(reloading) {
+        sprite_index = spr_playerRockReload;
+        image_speed = .2;
+        if(image_index &gt; image_number - 1) {
+            shooting = false;
+            reloadCount = 0;
+            reloading = false;
+            iceAmmo = 1;
+            image_speed = 0;
+        }
+    }
+    else {
+        sprite_index = spr_playerRock;
+        if(image_speed &gt; 0 &amp;&amp; (image_index &gt;= 0 &amp;&amp; image_index &lt; 1)) {
+            image_speed = 0;
+            image_index = 0;
+        }
+    }
 }
 //flamethrower
 else if(weaponArr[10]) {
@@ -658,66 +772,6 @@ else if(weaponArr[10]) {
         }
     }
 }
-</string>
-          </argument>
-        </arguments>
-      </action>
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string>/*dirStraight = image_angle - 90;
-xFor = moveStraight * dsin(dirStraight) * WALKING_SPEED;
-yFor = moveStraight * dcos(dirStraight) * WALKING_SPEED;
-if(place_meeting(x + xFor, y, par_wall)) {
-    while(!place_meeting(x + sign(xFor), y, par_wall)) {
-        x += sign(xFor);
-    }
-}
-else {
-    x += xFor;
-}
-if(place_meeting(x, y + yFor, par_wall)) {
-    while(!place_meeting(x, y + sign(yFor), par_wall)) {
-        y += sign(yFor);
-    }
-}
-else {
-    y += yFor;
-}
-
-dirSide = image_angle;
-xSide = moveSide * dsin(dirSide) * WALKING_SPEED;
-ySide = moveSide * dcos(dirSide) * WALKING_SPEED;
-if(place_meeting(x + xSide, y, par_wall)) {
-    while(!place_meeting(x + sign(xSide), y, par_wall)) {
-        x += sign(xSide);
-    }
-}
-else {
-    x += xSide;
-}
-if(place_meeting(x, y + ySide, par_wall)) {
-    while(!place_meeting(x, y + sign(ySide), par_wall)) {
-        y += sign(ySide);
-    }
-}
-else {
-    y += ySide;
-}
-*/
 </string>
           </argument>
         </arguments>
@@ -781,7 +835,27 @@ else {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string></string>
+            <string>if(holdingItem) {
+    heldItem.x = clamp(mouse_x, 0, 864);
+    heldItem.y = clamp(mouse_y, 0, 864);
+    if(mouse_check_button_pressed(mb_left)) {
+        if(mouse_x &lt; 864 &amp;&amp; mouse_y &lt; 864) {
+            heldItem.placed = true;
+            heldItem = undefined;
+            holdingItem = false;
+        }
+        else {
+            invalidPlacing = true;
+            alarm[0] = 2 * room_speed;
+            //send message saying invalid place to put it or something
+        }
+    }   
+    if(keyR) {
+        heldItem.image_angle += 45;
+        //rotate item in hand. maybe this won't work with cursors
+    }
+}
+</string>
           </argument>
         </arguments>
       </action>
@@ -803,14 +877,19 @@ else {
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>text = "Round: " + string(global.roundIndex);
+            <string>///Text Handler
+text = "Round: " + string(global.roundIndex);
 text2 = "Money: " + string(global.money);
 text3 = "Index: " + string(weaponIndex);
+text4 = "Cannot place item there";
 draw_set_font(f_round);
 draw_set_color(c_white);
 draw_text_transformed(10, 10, text, 1, 1, 0);
 draw_text_transformed(10, 30, text2, 1, 1, 0);
 draw_text_transformed(10, 50, text3, 1, 1, 0);
+if(invalidPlacing) {
+    draw_text_transformed(mouse_x, mouse_y, text4, 1, 1, 0);
+}
 </string>
           </argument>
         </arguments>
@@ -833,7 +912,8 @@ draw_text_transformed(10, 50, text3, 1, 1, 0);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>draw_sprite_ext(sprite_index, image_index, x, y, 1, 1, angle, -1, 1);
+            <string>///Player image drawer
+draw_sprite_ext(sprite_index, image_index, x, y, 1, 1, angle, -1, 1);
 
 </string>
           </argument>
@@ -857,7 +937,8 @@ draw_text_transformed(10, 50, text3, 1, 1, 0);
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>room_restart();
+            <string>///Restart
+room_restart();
 </string>
           </argument>
         </arguments>

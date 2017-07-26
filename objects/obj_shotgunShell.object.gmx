@@ -30,6 +30,7 @@ xDir = dcos(image_angle);
 yDir = -dsin(image_angle);
 spd = 7 + random_range(-2, 2);
 alarm[0] = room_speed / 2;
+damage = 30;
 </string>
           </argument>
         </arguments>
@@ -75,15 +76,15 @@ alarm[0] = room_speed / 2;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>if(position_meeting(x + (spd * xDir), y + (spd * yDir), par_enemy)) {
+            <string>if(place_meeting(x + (spd * xDir), y + (spd * yDir), par_enemy)) {
     //while(!position_meeting(x + sign(xDir), y + sign(yDir), obj_walker)) {
         x += xDir * spd;
         y += yDir * spd;
     //}
-    if(position_meeting(x, y, par_enemy)) {
-        with(instance_position(x + sign(xDir), y + sign(yDir), par_enemy)) {
+    if(place_meeting(x, y, par_enemy)) {
+        with(instance_place(x, y, par_enemy)) {
             part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
-            hp -= 30;
+            hp -= other.damage;
         }
         instance_destroy();
     }
@@ -91,10 +92,6 @@ alarm[0] = room_speed / 2;
 else {
     x += (spd * xDir);
     y += (spd * yDir);
-}
-
-if(x &gt; 864) {
-    instance_destroy();
 }
 </string>
           </argument>
