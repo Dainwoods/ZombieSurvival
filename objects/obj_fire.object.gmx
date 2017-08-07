@@ -90,11 +90,11 @@ if(collision_line(x, y, x + lengthdir_x((image_xscale / 2) + speed, direction), 
 if(collision_circle(x, y, image_xscale / 3, par_enemy, 0, 1)) {
     instance_destroy();
 }*/
-if(position_meeting(x, y, par_enemy)) {
+/*if(position_meeting(x, y, par_enemy)) {
     with(instance_position(x, y, par_enemy)) {
         //instance_destroy();
     }
-}
+}*/
 </string>
           </argument>
         </arguments>

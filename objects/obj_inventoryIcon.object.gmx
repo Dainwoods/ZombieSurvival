@@ -29,7 +29,7 @@
 iconIndex = 0;
 iconNumber = 0;
 selected = false;
-spriteArr = createArr(spr_rockIcon, spr_bowIcon, spr_pistolIcon, spr_dynamiteIcon, spr_machineGunIcon, spr_rockIcon, spr_shotgunIcon, spr_rockIcon, spr_rockIcon, spr_rockIcon, spr_flamethrowerIcon);
+spriteArr = createArr(spr_rockIcon, spr_bowIcon, spr_pistolIcon, spr_dynamiteIcon, spr_machineGunIcon, spr_rifleIcon, spr_shotgunIcon, spr_rockIcon, spr_rockIcon, spr_iceIcon, spr_flamethrowerIcon);
 
 </string>
           </argument>
@@ -88,28 +88,6 @@ draw_set_color(c_black);
 draw_text_transformed(x - 32 + 5, y - 20 + 5, text, 1, 1, 0);
 draw_self();
 </string>
-          </argument>
-        </arguments>
-      </action>
-    </event>
-    <event eventtype="8" enumb="0">
-      <action>
-        <libid>1</libid>
-        <id>603</id>
-        <kind>7</kind>
-        <userelative>0</userelative>
-        <isquestion>0</isquestion>
-        <useapplyto>-1</useapplyto>
-        <exetype>2</exetype>
-        <functionname></functionname>
-        <codestring></codestring>
-        <whoName>self</whoName>
-        <relative>0</relative>
-        <isnot>0</isnot>
-        <arguments>
-          <argument>
-            <kind>1</kind>
-            <string></string>
           </argument>
         </arguments>
       </action>

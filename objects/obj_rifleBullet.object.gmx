@@ -30,7 +30,7 @@ xDir = dcos(image_angle);
 yDir = -dsin(image_angle);
 spd = 12; //was 8
 damage = 200
-enemiesHit = createArr();
+enemiesHit[0] = undefined;
 </string>
           </argument>
         </arguments>
@@ -56,15 +56,19 @@ enemiesHit = createArr();
             <string>if(place_meeting(x + (spd * xDir), y + (spd * yDir), par_enemy)) {
     var enemy = instance_place(x + (spd * xDir), y + (spd * yDir), par_enemy);
     var alreadyHit = false;
-    for(i = 0; i &lt; array_length_1d(enemiesHit); i++) {
-        if(enemiesHit[i] == enemy) {
-            alreadyHit = true;
+    if(!is_undefined(enemiesHit)) {
+        for(i = 0; i &lt; array_length_1d(enemiesHit); i++) {
+            if(enemiesHit[i] == enemy) {
+                alreadyHit = true;
+            }
         }
     }
     if(!alreadyHit) {
         x += spd * xDir;
         y += spd * yDir;
-        with(instance_place(x, y, par_enemy)) {
+        var enemy = instance_place(x, y, par_enemy);
+        enemiesHit[array_length_1d(enemiesHit)] = enemy;
+        with(enemy) {
             part_particles_create(global.system, x + sign(xDir), y + sign(yDir), global.bloodPart, 3);
             hp -= other.damage;
         }

@@ -135,7 +135,7 @@ spiral = false;
             <kind>1</kind>
             <string>///Spiral Handler
 spiralSign *= -1;
-image_angle = point_direction(x, y, obj_player1.x, obj_player1.y) + (spiralSign * 10);
+
 </string>
           </argument>
         </arguments>
@@ -226,9 +226,15 @@ else if(zigzag) {
     if(alarm[0] &lt;= 0) {
         alarm[0] = room_speed;
     }
-    length = point_distance(x, y, obj_player1.x, obj_player1.y);
-    xDir = (obj_player1.x - x) / length;
-    yDir = (obj_player1.y - y) / length;
+    image_angle = point_direction(x, y, obj_player1.x, obj_player1.y) + (spiralSign * 10);
+    var newX = x + (10 * dcos(image_angle));
+    var newY = y - (10 * dsin(image_angle));
+    var newLength = point_distance(x, y, newX, newY);
+    //length = point_distance(x, y, obj_player1.x, obj_player1.y);
+    //xDir = (obj_player1.x - x) / length;
+    //yDir = (obj_player1.y - y) / length;
+    xDir = (newX - x) / newLength;
+    yDir = (newY - y) / newLength;
 }
 else {
     image_angle = point_direction(x, y, obj_player1.x, obj_player1.y);

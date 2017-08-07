@@ -69,6 +69,10 @@ laserAmmo = LASER_CAPACITY
 molotovAmmo = 1;
 iceAmmo = 1;
 flameAmmo = FLAME_CAPACITY;
+swordCD = 0
+stickCD = 0;
+swordAmmo = 1;
+stickAmmo = 1;
 
 reloadCount = 0;
 reloading = false;
@@ -80,9 +84,11 @@ holdingItem = false;
 heldItem = undefined;
 invalidPlacing = false;
 
-//weaponArr = createArr(rock, bow, pistol, dynamite, machineGun, rifle, shotgun, laser, molotov, iceCube, flamethrower);
-weaponArr = createArr(true, false, false, false, false, false, false, false, false, false, false);
-playerWeapons = createArr(0, 0, 0, 0, 0);
+//weaponArr = createArr(rock, bow, pistol, dynamite, machineGun, rifle, shotgun, laser, molotov, iceCube, flamethrower, stick, sword);
+weaponArr = createArr(true, false, false, false, false, false, false, false, false, false, false, true, false);
+ammoArr = createArr(1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0);
+currentAmmoArr = createArr(rockAmmo, bowAmmo, pistolAmmo, dynamiteAmmo, machineAmmo, rifleAmmo, shotgunAmmo, laserAmmo, molotovAmmo, iceAmmo, flameAmmo, stickAmmo, swordAmmo);
+playerWeapons = createArr(0, 11, 11, 11, 11);
 weaponIndex = 0;
 switchIndex = 0;
 </string>
@@ -336,15 +342,16 @@ if(mouse_check_button(mb_left) &amp;&amp; !position_meeting(mouse_x, mouse_y, ob
 else {
     shooting = false;
 }
+var ind = playerWeapons[weaponIndex];
 if(weaponArr[0]) {
-    if(shooting &amp;&amp; rockAmmo &gt; 0) {
+    if(shooting &amp;&amp; currentAmmoArr[ind] &gt; 0) {
         instance_create(x, y, obj_rock);
-        rockAmmo = 0;
+        currentAmmoArr[ind] = 0;
         image_index++;
         image_speed = .1;
         shooting = true;
     }
-    else if(rockAmmo == 0 &amp;&amp; !reloading /*&amp;&amp; image_index &gt;= 3*/) {
+    else if(ammoArr[playerWeapons[weaponIndex]] &gt; 0 &amp;&amp; currentAmmoArr[ind] == 0 &amp;&amp; !reloading /*&amp;&amp; image_index &gt;= 3*/) {
         shooting = false;
         reloading = true;
     }
@@ -358,14 +365,14 @@ if(weaponArr[0]) {
 }
 //Bow and arrow
 else if(weaponArr[1]) {
-    if(shooting &amp;&amp; bowAmmo &gt; 0) {
+    if(shooting &amp;&amp; currentAmmoArr[ind] &gt; 0) {
         shooting = true;
         instance_create(x, y, obj_arrow);
-        bowAmmo--;
+        currentAmmoArr[ind]--;
         image_index++;
         image_speed = .4;
     }
-    else if(bowAmmo == 0 &amp;&amp; !reloading) {
+    else if(ammoArr[playerWeapons[weaponIndex]] &gt; 0 &amp;&amp; currentAmmoArr[ind] == 0 &amp;&amp; !reloading) {
         shooting = false;
         reloading = true;
     }
@@ -374,37 +381,30 @@ else if(weaponArr[1]) {
         reloadCount++;
     }
     else if(reloading) {
-        shooting = false;
-        reloadCount = 0;
-        reloading = false;
-        bowAmmo = 1;
-        image_speed = 0;
+        
     }
     
 }
 //Pistol
 else if(weaponArr[2]) {
-    if(shooting &amp;&amp; pistolAmmo &gt; 0 &amp;&amp; pistolCD == 0) {
+    if(shooting &amp;&amp; currentAmmoArr[ind] &gt; 0 &amp;&amp; pistolCD == 0) {
         pistolCD = room_speed / 3;
         instance_create(x, y, obj_bullet);
         //distanceToMouse = point_distance(room_height / 2, room_height / 2, mouse_x, mouse_y); 
         //part_particles_create(global.system, x + (7 * ((mouse_x - x) / distanceToMouse)), y + (8 * ((mouse_y - y) / distanceToMouse)), global.pistolPart, 5);
         part_particles_create(global.system, x, y, global.pistolPart, 5); 
-        pistolAmmo--;
+        currentAmmoArr[ind]--;
         image_index++;
         image_speed = .4;
     }
-    else if(((pistolAmmo == 0 /*&amp;&amp; mouse_check_button_pressed(mb_left)*/) || (keyboard_check_pressed(ord('R')) &amp;&amp; pistolAmmo != PISTOL_CAPACITY)) &amp;&amp; !reloading) {
+    else if(ammoArr[playerWeapons[weaponIndex]] &gt; 0 &amp;&amp; ((currentAmmoArr[ind] == 0 /*&amp;&amp; mouse_check_button_pressed(mb_left)*/) || (keyboard_check_pressed(ord('R')) &amp;&amp; currentAmmoArr[ind] != PISTOL_CAPACITY)) &amp;&amp; !reloading) {
         reloading = true;
     }
     else if(reloadCount &lt; 1.2 * room_speed &amp;&amp; reloading) {
         reloadCount++;
     }
     else if(reloading) {
-        reloadCount = 0;
-        reloading = false;
-        pistolAmmo = PISTOL_CAPACITY;
-        image_speed = 0;
+        
     }
     if(pistolCD != 0) {
         pistolCD--;
@@ -412,40 +412,37 @@ else if(weaponArr[2]) {
 }
 //Dynamite
 else if(weaponArr[3]) {
-    if(shooting &amp;&amp; dynamiteAmmo &gt; 0) {
+    if(shooting &amp;&amp; currentAmmoArr[ind] &gt; 0) {
         instance_create(x, y, obj_dynamite);
-        dynamiteAmmo = 0;
+        currentAmmoArr[ind] = 0;
         image_index++;
         image_speed = .1;
     }
-    else if(dynamiteAmmo == 0 &amp;&amp; !reloading &amp;&amp; image_index &gt;= 3) {
+    else if(ammoArr[playerWeapons[weaponIndex]] &gt; 0 &amp;&amp; currentAmmoArr[ind] == 0 &amp;&amp; !reloading &amp;&amp; image_index &gt;= 3) {
         reloading = true;
     }
     else if(reloadCount &lt; .6 * room_speed &amp;&amp; reloading) {
         reloadCount++;
     }
     else if(reloading) {
-        reloadCount = 0;
-        reloading = false;
-        dynamiteAmmo = 1;
-        image_speed = 0;
+        
     }
 }
 
 //Machine Gun
 else if(weaponArr[4]) {
-    if(shooting &amp;&amp; machineAmmo &gt; 0 &amp;&amp; machineCD == 0) {
+    if(shooting &amp;&amp; currentAmmoArr[ind] &gt; 0 &amp;&amp; machineCD == 0) {
         spray++;
         spray = clamp(spray, 0, 10);
         machineCD = room_speed / 10;
         instance_create(x, y, obj_machineBullet);
         distanceToMouse = point_distance(room_height / 2, room_height / 2, mouse_x, mouse_y); 
         part_particles_create(global.system, x + (10 * ((mouse_x - x) / distanceToMouse)), y + (12 * ((mouse_x - y)) / distanceToMouse), global.pistolPart, 5);
-        machineAmmo--;
+        currentAmmoArr[ind]--;
         image_index++;
         image_speed = .6;
     }
-    else if(((machineAmmo == 0 /*&amp;&amp; mouse_check_button_pressed(mb_left)*/) || (keyboard_check_pressed(ord('R')) &amp;&amp; machineAmmo != PISTOL_CAPACITY)) &amp;&amp; !reloading) {
+    else if(ammoArr[playerWeapons[weaponIndex]] &gt; 0 &amp;&amp; ((currentAmmoArr[ind] == 0 /*&amp;&amp; mouse_check_button_pressed(mb_left)*/) || (keyboard_check_pressed(ord('R')) &amp;&amp; currentAmmoArr[ind] != PISTOL_CAPACITY)) &amp;&amp; !reloading) {
         reloading = true;
     }
     else if(reloadCount &lt; 4.8 * room_speed &amp;&amp; reloading) {
@@ -464,17 +461,17 @@ else if(weaponArr[4]) {
 }
 //Rifle
 else if(weaponArr[5]) {
-    if(shooting &amp;&amp; rifleAmmo &gt; 0 &amp;&amp; rifleCD == 0) {
+    if(shooting &amp;&amp; currentAmmoArr[ind] &gt; 0 &amp;&amp; rifleCD == 0) {
         rifleCD = room_speed / 3;
         instance_create(x, y, obj_rifleBullet);
         //distanceToMouse = point_distance(room_height / 2, room_height / 2, mouse_x, mouse_y); 
         //part_particles_create(global.system, x + (7 * ((mouse_x - x) / distanceToMouse)), y + (8 * ((mouse_y - y) / distanceToMouse)), global.pistolPart, 5);
         part_particles_create(global.system, x, y, global.pistolPart, 5); 
-        rifleAmmo--;
+        currentAmmoArr[ind]--;
         image_index++;
         image_speed = .4;
     }
-    else if(((rifleAmmo == 0 /*&amp;&amp; mouse_check_button_pressed(mb_left)*/) || (keyboard_check_pressed(ord('R')) &amp;&amp; rifleAmmo != RIFLE_CAPACITY)) &amp;&amp; !reloading) {
+    else if(ammoArr[playerWeapons[weaponIndex]] &gt; 0 &amp;&amp; ((currentAmmoArr[ind] == 0 /*&amp;&amp; mouse_check_button_pressed(mb_left)*/) || (keyboard_check_pressed(ord('R')) &amp;&amp; currentAmmoArr[ind] != RIFLE_CAPACITY)) &amp;&amp; !reloading) {
         reloading = true;
     }
     else if(reloadCount &lt; 1.2 * room_speed &amp;&amp; reloading) {
@@ -489,7 +486,7 @@ else if(weaponArr[5]) {
 }
 //Shotgun
 else if(weaponArr[6]) {
-    if(shooting &amp;&amp; shotgunAmmo &gt; 0 &amp;&amp; shotgunCD == 0) {
+    if(shooting &amp;&amp; currentAmmoArr[ind] &gt; 0 &amp;&amp; shotgunCD == 0) {
         shotgunCD = room_speed / 3;
         for(i = 0; i &lt; 10; i++) {
             instance_create(x, y, obj_shotgunShell);
@@ -497,11 +494,11 @@ else if(weaponArr[6]) {
         //distanceToMouse = point_distance(room_height / 2, room_height / 2, mouse_x, mouse_y); 
         //part_particles_create(global.system, x + (7 * ((mouse_x - x) / distanceToMouse)), y + (8 * ((mouse_y - y) / distanceToMouse)), global.pistolPart, 5);
         part_particles_create(global.system, x, y, global.pistolPart, 10); 
-        shotgunAmmo--;
+        currentAmmoArr[ind]--;
         image_index++;
         image_speed = .4;
     }
-    else if(((shotgunAmmo == 0 /*&amp;&amp; mouse_check_button_pressed(mb_left)*/) || (keyboard_check_pressed(ord('R')) &amp;&amp; shotgunAmmo != SHOTGUN_CAPACITY)) &amp;&amp; !reloading) {
+    else if(ammoArr[playerWeapons[weaponIndex]] &gt; 0 &amp;&amp; ((currentAmmoArr[ind] == 0 /*&amp;&amp; mouse_check_button_pressed(mb_left)*/) || (keyboard_check_pressed(ord('R')) &amp;&amp; currentAmmoArr[ind] != SHOTGUN_CAPACITY)) &amp;&amp; !reloading) {
         reloading = true;
     }
     else if(reloadCount &lt; 1 * room_speed &amp;&amp; reloading) {
@@ -524,14 +521,14 @@ else if(weaponArr[8]) {
 }
 //Ice cube
 else if(weaponArr[9]) {
-    if(shooting &amp;&amp; iceAmmo &gt; 0) {
+    if(shooting &amp;&amp; currentAmmoArr[ind] &gt; 0) {
         instance_create(x, y, obj_iceCube);
-        iceAmmo = 0;
+        currentAmmoArr[ind] = 0;
         image_index++;
         image_speed = .1;
         shooting = true;
     }
-    else if(iceAmmo == 0 &amp;&amp; !reloading /*&amp;&amp; image_index &gt;= 3*/) {
+    else if(ammoArr[playerWeapons[weaponIndex]] &gt; 0 &amp;&amp; currentAmmoArr[ind] == 0 &amp;&amp; !reloading /*&amp;&amp; image_index &gt;= 3*/) {
         shooting = false;
         reloading = true;
     }
@@ -545,7 +542,7 @@ else if(weaponArr[9]) {
 }
 //Flamethrower
 else if(weaponArr[10]) {
-    if(shooting &amp;&amp; flameAmmo &gt; 0) {
+    if(shooting &amp;&amp; currentAmmoArr[ind] &gt; 0) {
         part_type_direction(global.flame, angle - 5, angle + 5, 0, .10);
         part_type_direction(global.smoke, angle - 5, angle + 5, 0, .10);
 
@@ -554,9 +551,9 @@ else if(weaponArr[10]) {
         part_emitter_burst(global.fire, global.em, global.flame, 5);
 
         instance_create(x, y, obj_fire);
-        flameAmmo--;
+        currentAmmoArr[ind]--;
     }
-    else if(flameAmmo == 0 || (keyboard_check_pressed(ord('R')) &amp;&amp; flameAmmo != FLAME_CAPACITY)) {
+    else if(ammoArr[playerWeapons[weaponIndex]] &gt; 0 &amp;&amp; currentAmmoArr[ind] == 0 || (keyboard_check_pressed(ord('R')) &amp;&amp; currentAmmoArr[ind] != FLAME_CAPACITY)) {
         reloading = true;
     }
     else if(reloadCount &lt; 3 * room_speed &amp;&amp; reloading) {
@@ -565,7 +562,34 @@ else if(weaponArr[10]) {
     else if(reloading) {
     }
 }
-
+//Stick
+else if(weaponArr[11]) {
+    if(shooting &amp;&amp; stickCD == 0) {
+        stickCD = room_speed / 2;
+        instance_create(x, y, obj_stickSwing);
+        //distanceToMouse = point_distance(room_height / 2, room_height / 2, mouse_x, mouse_y); 
+        //part_particles_create(global.system, x + (7 * ((mouse_x - x) / distanceToMouse)), y + (8 * ((mouse_y - y) / distanceToMouse)), global.pistolPart, 5);
+        image_index++;
+        image_speed = .4;
+    }
+    if(stickCD != 0) {
+        stickCD--;
+    }
+}
+//Stick
+else if(weaponArr[12]) {
+    if(shooting &amp;&amp; swordCD == 0) {
+        swordCD = room_speed / 2;
+        instance_create(x, y, obj_swordSwing);
+        //distanceToMouse = point_distance(room_height / 2, room_height / 2, mouse_x, mouse_y); 
+        //part_particles_create(global.system, x + (7 * ((mouse_x - x) / distanceToMouse)), y + (8 * ((mouse_y - y) / distanceToMouse)), global.pistolPart, 5);
+        image_index++;
+        image_speed = .4;
+    }
+    if(swordCD != 0) {
+        swordCD--;
+    }
+}
 if(lob &amp;&amp; !lobActivated) {
     lobActivated = true;
     instance_create(min(mouse_x, 864), mouse_y, obj_lobMarker);
@@ -599,6 +623,7 @@ else if(!lob &amp;&amp; instance_exists(obj_lobMarker)) {
             <kind>1</kind>
             <string>///Player sprite controller
 //rock
+var ind = playerWeapons[weaponIndex];
 if(weaponArr[0]) {
     if(reloading) {
         sprite_index = spr_playerRockReload;
@@ -607,7 +632,7 @@ if(weaponArr[0]) {
             shooting = false;
             reloadCount = 0;
             reloading = false;
-            rockAmmo = 1;
+            currentAmmoArr[ind] = 1;
             image_speed = 0;
         }
     }
@@ -624,6 +649,14 @@ else if(weaponArr[1]) {
     if(reloading) {
         sprite_index = spr_playerBowReload;
         image_speed = .1;
+        if(image_index &gt;= image_number - 1) {
+            shooting = false;
+            reloadCount = 0;
+            reloading = false;
+            currentAmmoArr[ind] = min(1, ammoArr[ind]);
+            ammoArr[ind] -= currentAmmoArr[ind];
+            image_speed = 0;
+        }
     }
     else {
         sprite_index = spr_playerBow;
@@ -638,6 +671,13 @@ else if(weaponArr[2]) {
     if(reloading) {
         sprite_index = spr_playerPistolReload;
         image_speed = .1;
+        if(image_index &gt; image_number - 1) {
+            reloadCount = 0;
+            reloading = false;
+            currentAmmoArr[ind] = min(PISTOL_CAPACITY, ammoArr[ind]);
+            ammoArr[ind] -= currentAmmoArr[ind];
+            image_speed = 0;
+        }
     }
     else {
         sprite_index = spr_playerPistolShoot;
@@ -652,6 +692,13 @@ else if(weaponArr[3]) {
     if(reloading) {
         sprite_index = spr_playerDynamiteReload;
         image_speed = .2;
+        if(image_index &gt; image_number - 1) {
+            reloadCount = 0;
+            reloading = false;
+            currentAmmoArr[ind] = min(1, ammoArr[ind]);
+            ammoArr[ind] -= currentAmmoArr[ind];
+            image_speed = 0;
+        }
     }
     else {
         sprite_index = spr_playerDynamite;
@@ -669,7 +716,8 @@ else if(weaponArr[4]) {
         if(image_index &gt; image_number - 1) {
             reloadCount = 0;
             reloading = false;
-            machineAmmo = MACHINE_CAPACITY;
+            currentAmmoArr[ind] = min(MACHINE_CAPACITY, ammoArr[ind]);
+            ammoArr[ind] -= currentAmmoArr[ind];
             image_index = 0;
             image_speed = 0;
         }
@@ -690,7 +738,8 @@ else if(weaponArr[5]) {
         if(image_index &gt;= image_number - 1) {
             reloadCount = 0;
             reloading = false;
-            rifleAmmo = RIFLE_CAPACITY;
+            currentAmmoArr[ind] = min(RIFLE_CAPACITY, ammoArr[ind]);
+            ammoArr[ind] -= currentAmmoArr[ind];
             image_index = 0;
             image_speed = 0;
         }
@@ -711,7 +760,8 @@ else if(weaponArr[6]) {
         if(image_index &gt; image_number - 1) {
             reloadCount = 0;
             reloading = false;
-            shotgunAmmo = SHOTGUN_CAPACITY;
+            currentAmmoArr[ind] = min(SHOTGUN_CAPACITY, ammoArr[ind]);
+            ammoArr[ind] -= currentAmmoArr[ind];
             image_speed = 0;
         }
     }
@@ -740,7 +790,8 @@ if(reloading) {
             shooting = false;
             reloadCount = 0;
             reloading = false;
-            iceAmmo = 1;
+            currentAmmoArr[ind] = min(1, ammoArr[ind]);
+            ammoArr[ind] -= currentAmmoArr[ind];
             image_speed = 0;
         }
     }
@@ -760,7 +811,8 @@ else if(weaponArr[10]) {
         if(image_index &gt; image_number - 1) {
             reloadCount = 0;
             reloading = false;
-            flameAmmo = FLAME_CAPACITY;
+            currentAmmoArr[ind] = min(FLAME_CAPACITY, ammoArr[ind]);
+            ammoArr[ind] -= currentAmmoArr[ind];
             image_speed = 0;
         }
     }
@@ -882,11 +934,14 @@ text = "Round: " + string(global.roundIndex);
 text2 = "Money: " + string(global.money);
 text3 = "Index: " + string(weaponIndex);
 text4 = "Cannot place item there";
+var ind = playerWeapons[weaponIndex];
+text5 = "Ammo: " + string(currentAmmoArr[ind]) + "/" + string(ammoArr[ind]);
 draw_set_font(f_round);
 draw_set_color(c_white);
 draw_text_transformed(10, 10, text, 1, 1, 0);
 draw_text_transformed(10, 30, text2, 1, 1, 0);
 draw_text_transformed(10, 50, text3, 1, 1, 0);
+draw_text_transformed(10, 70, text5, 1, 1, 0);
 if(invalidPlacing) {
     draw_text_transformed(mouse_x, mouse_y, text4, 1, 1, 0);
 }

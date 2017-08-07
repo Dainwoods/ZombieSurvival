@@ -27,6 +27,7 @@
             <kind>1</kind>
             <string>price = 1;
 weaponIndex = 1;
+ammo = 20;
 </string>
           </argument>
         </arguments>

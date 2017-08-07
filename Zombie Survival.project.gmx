@@ -4,7 +4,9 @@
     <Config>Configs\Default</Config>
   </Configs>
   <NewExtensions/>
-  <sounds name="sound"/>
+  <sounds name="sound">
+    <sound>sound\snd_play</sound>
+  </sounds>
   <sprites name="sprites">
     <sprites name="Character Sprites">
       <sprites name="Walker Sprites">
@@ -40,6 +42,7 @@
       <sprite>sprites\spr_shotgunShell</sprite>
       <sprite>sprites\spr_bullet</sprite>
       <sprite>sprites\spr_arrow</sprite>
+      <sprite>sprites\spr_swordSwing</sprite>
     </sprites>
     <sprites name="Environment Sprites">
       <sprite>sprites\spr_barricade</sprite>
@@ -60,15 +63,26 @@
       <sprite>sprites\spr_playerHealth</sprite>
       <sprite>sprites\spr_menuItemBar</sprite>
       <sprites name="Menu Item Icons">
-        <sprite>sprites\spr_rockIcon</sprite>
-        <sprite>sprites\spr_bowIcon</sprite>
-        <sprite>sprites\spr_pistolIcon</sprite>
-        <sprite>sprites\spr_dynamiteIcon</sprite>
-        <sprite>sprites\spr_machineGunIcon</sprite>
-        <sprite>sprites\spr_shotgunIcon</sprite>
-        <sprite>sprites\spr_flamethrowerIcon</sprite>
+        <sprites name="Weapons">
+          <sprite>sprites\spr_rockIcon</sprite>
+          <sprite>sprites\spr_bowIcon</sprite>
+          <sprite>sprites\spr_pistolIcon</sprite>
+          <sprite>sprites\spr_dynamiteIcon</sprite>
+          <sprite>sprites\spr_machineGunIcon</sprite>
+          <sprite>sprites\spr_shotgunIcon</sprite>
+          <sprite>sprites\spr_flamethrowerIcon</sprite>
+          <sprite>sprites\spr_rifleIcon</sprite>
+          <sprite>sprites\spr_iceIcon</sprite>
+          <sprite>sprites\spr_stickIcon</sprite>
+          <sprite>sprites\spr_swordIcon</sprite>
+        </sprites>
+        <sprites name="Other">
+          <sprite>sprites\spr_torchIcon</sprite>
+          <sprite>sprites\spr_barricadeIcon</sprite>
+        </sprites>
       </sprites>
     </sprites>
+    <sprite>sprites\spr_logo</sprite>
   </sprites>
   <backgrounds name="background">
     <background>background\bg_deathScreen</background>
@@ -104,6 +118,8 @@
       <object>objects\obj_explosion</object>
       <object>objects\obj_arrow</object>
       <object>objects\obj_bullet</object>
+      <object>objects\obj_swordSwing</object>
+      <object>objects\obj_stickSwing</object>
     </objects>
     <objects name="Environment Objects">
       <object>objects\obj_barricade</object>
@@ -124,15 +140,23 @@
       <object>objects\obj_playerAnim</object>
       <object>objects\obj_menu</object>
       <objects name="Menu Icon Objects">
-        <object>objects\obj_rockIcon</object>
-        <object>objects\obj_bowIcon</object>
-        <object>objects\obj_pistolIcon</object>
-        <object>objects\obj_dynamtieIcon</object>
-        <object>objects\obj_machineGunIcon</object>
-        <object>objects\obj_shotgunIcon</object>
-        <object>objects\obj_flamethrowerIcon</object>
-        <object>objects\obj_torchIcon</object>
-        <object>objects\obj_barricadeIcon</object>
+        <objects name="Weapons">
+          <object>objects\obj_rockIcon</object>
+          <object>objects\obj_bowIcon</object>
+          <object>objects\obj_pistolIcon</object>
+          <object>objects\obj_dynamtieIcon</object>
+          <object>objects\obj_machineGunIcon</object>
+          <object>objects\obj_rifleIcon</object>
+          <object>objects\obj_shotgunIcon</object>
+          <object>objects\obj_iceIcon</object>
+          <object>objects\obj_flamethrowerIcon</object>
+          <object>objects\obj_stickIcon</object>
+          <object>objects\obj_swordIcon</object>
+        </objects>
+        <objects name="Other">
+          <object>objects\obj_torchIcon</object>
+          <object>objects\obj_barricadeIcon</object>
+        </objects>
       </objects>
       <object>objects\obj_inventoryIcon</object>
       <object>objects\obj_menuItemBar</object>
@@ -146,9 +170,13 @@
       <object>objects\obj_full</object>
       <object>objects\obj_spawner</object>
       <object>objects\obj_particle</object>
+      <object>objects\obj_musicHandler</object>
+      <object>objects\obj_saver</object>
+      <object>objects\obj_logo</object>
     </objects>
   </objects>
   <rooms name="rooms">
+    <room>rooms\room_logo</room>
     <room>rooms\rm_play1</room>
     <room>rooms\rm_deathScreen</room>
   </rooms>

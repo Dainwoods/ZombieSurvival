@@ -49,7 +49,7 @@ image_speed = 0;
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>with(obj_torch) {
+            <string>with(obj_barricadeTorch) {
     if(barricade == other) {
         instance_destroy();
     }

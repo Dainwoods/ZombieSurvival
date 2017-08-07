@@ -108,12 +108,10 @@ if(spawn &gt;= spawnTimer &amp;&amp; totalLeft &gt; 0) {
     }
     var enemy = instance_create(xPos, yPos, enemies[enemyIndex]);
     if(enemyIndex == 1) {
-        show_debug_message("1");
         enemy.spiral = true;
         enemy.spiralSign = choose(-1, 1);
     }
     else if(enemyIndex == 2) {
-        show_debug_message("2");
         enemy.zigzag = true;
     }
     totalLeft--;

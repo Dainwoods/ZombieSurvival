@@ -31,6 +31,7 @@ price = 0;
 image_speed = 0;
 depth = obj_menu.depth - 1;
 weaponIndex = 0;
+ammo = 0;
 </string>
           </argument>
         </arguments>
@@ -59,6 +60,15 @@ if(position_meeting(mouse_x, mouse_y, self)) {
     if(mouse_check_button_pressed(mb_right)) {
         if(global.money &gt;= price) {
             with(obj_player1) {
+                var repeats = false;
+                for(i = 0; i &lt; array_length_1d(playerWeapons); i++) {
+                    if(weaponIndex != i &amp;&amp; playerWeapons[weaponIndex] == playerWeapons[i]) {
+                        repeats = true;
+                    }
+                }
+                if(!repeats) {
+                    ammoArr[playerWeapons[weaponIndex]] = 0;
+                }
                 weaponArr[playerWeapons[weaponIndex]] = false;
                 playerWeapons[weaponIndex] = other.weaponIndex;
                 //setFalse();
@@ -71,6 +81,7 @@ if(position_meeting(mouse_x, mouse_y, self)) {
                     lob = false;
                 }
                 playerWeapons[weaponIndex] = other.weaponIndex;
+                ammoArr[playerWeapons[weaponIndex]] += other.ammo;
             }
             obj_menuItemBar.iconArr[obj_player1.weaponIndex].iconIndex = weaponIndex;
             global.money -= price;
